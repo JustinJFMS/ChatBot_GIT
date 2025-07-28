@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from openai import OpenAI
 from config import PROMPT_SISTEMA
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 # Cargar variables de entorno
@@ -16,6 +17,14 @@ client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
 # Inicializar FastAPI
 app = FastAPI()
 
+# Configuración CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todas las orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
 # Modelo de entrada
 class Pregunta(BaseModel):
     pregunta: str
